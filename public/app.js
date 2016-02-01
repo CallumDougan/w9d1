@@ -10,21 +10,7 @@ var init = function() {
     newQuote(quote, name);
 
   }
-
-  var quoteEntry = function(quote, name) {
-    var setQuote = new Quote(quote, name)
-    var newQuote = document.createElement("blockquote");
-    var newName = document.createElement("cite");
-
-    newQuote.setAttribute('class', "quote");
-    newQuote.innerText = (newQuote.name + ' ');
-    newName.innerText = setQuote.name;
-
-    quoteList = document.getElementById("regular");
-    quoteList.appendChild(newQuote);
-    newQuote.appendChild(newName);
-
-  }
+    
 
   var palette = function() {
 
@@ -62,6 +48,7 @@ var init = function() {
     this.name = name;
   }
 
+
   var quote1 = new Quote('Visual Basic is the way forward, I do not know why we are doing Javascript.', 'Jay');
   var quote2 = new Quote('The only CSS you need to know is background-color: tomato', 'Rick');
   var quote3 = new Quote('No blockers *smug tone*', 'Keith');
@@ -73,22 +60,36 @@ var init = function() {
 
     var regularQuotes = document.getElementById('regular');
     refreshContainer(regularQuotes);
+
     for (var i = quoteArray.length - 1; i >= 0; i--) {
 
       var article = document.createElement('article');
       var text = document.createElement('blockquote');
       var cite = document.createElement('cite');
+      var deleteButton = document.createElement('input');
+      deleteButton.setAttribute('type', 'submit');
+      deleteButton.setAttribute('id', 'delete');
+      deleteButton.setAttribute('value', 'Delete this quote?');
+      
+      deleteButton.onclick = function(){
+        console.log('got clicked');
+        targetQuote = this.parentNode.parentNode.parentNode;
+        deletedQuote = quoteArray.indexOf(targetQuote);
+        quoteArray.splice(deletedQuote, 1);
+        displayQuotes(quoteArray);
+      }
+
+
       var quote = quoteArray[i]['quote'];
       var name = quoteArray[i]['name'];
       text.innerText = ("''" + quote + "''");
-      cite.innerText = (" - " + name);
+      cite.innerText = (" - " + name + "  ");
 
-     
      article.setAttribute('class', "quote");
      regularQuotes.appendChild(article);
      article.appendChild(text);
      text.appendChild(cite);
-
+     cite.appendChild(deleteButton);
     };
 
     palette();
@@ -106,8 +107,22 @@ var init = function() {
     displayQuotes(quoteArray);
   }
 
+  var deleteQuote = function(){
+
+  }
+
   palette();
   displayQuotes(quoteArray);
+
+  // var deleteButton = document.getElementsByClassName('delete');
+
+  //   deleteButton.onclick = function(){
+  //     console.log('got clicked');
+  //     targetQuote = this.parentNode.parentNode.parentNode;
+  //     deletedQuote = quoteArray.indexOf(targetQuote);
+  //     quoteArray.splice(deletedQuote, 1);
+  //     displayQuotes(quoteArray);
+  //   }
 
 };
 
